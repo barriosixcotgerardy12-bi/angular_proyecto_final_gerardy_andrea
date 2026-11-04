@@ -1,0 +1,6 @@
+[
+  { "id": "masculino", "nombre": "Masculino" },
+  { "id": "femenino", "nombre": "Femenino" },
+  { "id": "otro", "nombre": "Otro" },
+  { "id": "no-indica", "nombre": "Prefiero no indicar" }
+]

@@ -1,0 +1,5 @@
+[
+  { "id": "presencial", "nombre": "Presencial" },
+  { "id": "virtual", "nombre": "Virtual" },
+  { "id": "hibrida", "nombre": "Híbrida" }
+]

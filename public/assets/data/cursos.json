@@ -1,0 +1,14 @@
+[
+  { "id": "WEB101", "codigo": "WEB101", "nombre": "Programación Web", "creditos": 4, "carreraId": "Sistemas" },
+  { "id": "BD101", "codigo": "BD101", "nombre": "Bases de Datos", "creditos": 4, "carreraId": "Sistemas" },
+  { "id": "PRG101", "codigo": "PRG101", "nombre": "Programación I", "creditos": 5, "carreraId": "Sistemas" },
+  { "id": "RED101", "codigo": "RED101", "nombre": "Redes de Computadoras", "creditos": 4, "carreraId": "Sistemas" },
+  { "id": "ADM101", "codigo": "ADM101", "nombre": "Fundamentos de Administración", "creditos": 3, "carreraId": "Administración" },
+  { "id": "MKT101", "codigo": "MKT101", "nombre": "Mercadotecnia", "creditos": 3, "carreraId": "Administración" },
+  { "id": "RHU101", "codigo": "RHU101", "nombre": "Recursos Humanos", "creditos": 3, "carreraId": "Administración" },
+  { "id": "EMP101", "codigo": "EMP101", "nombre": "Emprendimiento", "creditos": 3, "carreraId": "Administración" },
+  { "id": "CON101", "codigo": "CON101", "nombre": "Contabilidad I", "creditos": 4, "carreraId": "Contaduría" },
+  { "id": "CON201", "codigo": "CON201", "nombre": "Contabilidad de Costos", "creditos": 4, "carreraId": "Contaduría" },
+  { "id": "FIN101", "codigo": "FIN101", "nombre": "Finanzas Corporativas", "creditos": 4, "carreraId": "Contaduría" },
+  { "id": "AUD101", "codigo": "AUD101", "nombre": "Auditoría I", "creditos": 3, "carreraId": "Contaduría" }
+]
