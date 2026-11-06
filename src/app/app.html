@@ -1,1 +1,13 @@
-<router-outlet />
+<mat-toolbar color="primary">
+  <span>UMES · Inscripciones</span>
+  <nav>
+    <a mat-button routerLink="/inicio" routerLinkActive="activo">Inicio</a>
+    <a mat-button routerLink="/estudiantes" routerLinkActive="activo">Estudiantes</a>
+    <a mat-button routerLink="/inscripciones" routerLinkActive="activo">Inscripciones</a>
+    <a mat-button routerLink="/respaldo" routerLinkActive="activo">Respaldo</a>
+  </nav>
+</mat-toolbar>
+
+<main class="contenido">
+  <router-outlet />
+</main>
