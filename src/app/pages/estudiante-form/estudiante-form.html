@@ -1,0 +1,90 @@
+<p>estudiante-form works!</p>
+
+<h2>Nuevo estudiante</h2>
+
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+      <h3>Datos personales</h3>
+
+      <mat-form-field>
+        <mat-label>Código estudiantil</mat-label>
+        <input matInput formControlName="id" />
+        <mat-error>{{ mensajeError(c.id, 'Solo letras, números y guiones.') }}</mat-error>
+      </mat-form-field>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Nombres</mat-label>
+          <input matInput formControlName="nombres" />
+          <mat-error>{{ mensajeError(c.nombres, 'Solo letras y espacios.') }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Apellidos</mat-label>
+          <input matInput formControlName="apellidos" />
+          <mat-error>{{ mensajeError(c.apellidos, 'Solo letras y espacios.') }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field>
+        <mat-label>Fecha de nacimiento</mat-label>
+        <input matInput type="date" formControlName="fechaNacimiento" />
+        <mat-error>{{ mensajeError(c.fechaNacimiento) }}</mat-error>
+      </mat-form-field>
+
+      <div class="grupo">
+        <label>Género</label>
+        <mat-radio-group formControlName="genero">
+          @for (g of generos(); track g.id) {
+            <mat-radio-button [value]="g.id">{{ g.nombre }}</mat-radio-button>
+          }
+        </mat-radio-group>
+        @if (c.genero.touched && c.genero.hasError('required')) {
+          <p class="error">Selecciona un género.</p>
+        }
+      </div>
+
+      <h3>Contacto y residencia</h3>
+
+      <mat-form-field>
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput type="email" formControlName="correo" />
+        <mat-error>{{ mensajeError(c.correo, 'Ejemplo: nombre@dominio.com') }}</mat-error>
+      </mat-form-field>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Dirección de residencia</mat-label>
+          <input matInput formControlName="direccion" />
+          <mat-error>{{ mensajeError(c.direccion) }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <h3>Información académica</h3>
+
+      <mat-form-field>
+        <mat-label>Carrera</mat-label>
+        <mat-select formControlName="carreraId">
+          @for (carrera of carreras(); track carrera) {
+            <mat-option [value]="carrera">{{ carrera }}</mat-option>
+          }
+        </mat-select>
+        <mat-error>Selecciona una carrera.</mat-error>
+      </mat-form-field>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Observaciones (opcional)</mat-label>
+          <textarea matInput formControlName="observaciones"></textarea>
+          <mat-error>{{ mensajeError(c.observaciones) }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="acciones">
+        <a mat-button routerLink="/estudiantes">Cancelar</a>
+        <button mat-flat-button type="submit">Guardar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

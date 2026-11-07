@@ -1,0 +1,22 @@
+mat-card {
+  padding: 16px;
+}
+
+mat-form-field {
+  margin: 8px;
+}
+
+.grupo {
+  margin: 8px;
+}
+
+.error {
+  color: red;
+  margin: 4px 0;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  margin: 16px 8px 0 8px;
+}
