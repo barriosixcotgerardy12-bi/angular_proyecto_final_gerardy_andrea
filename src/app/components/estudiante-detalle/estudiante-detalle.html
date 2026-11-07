@@ -1,0 +1,21 @@
+<p>estudiante-detalle works!</p>
+
+<h2 mat-dialog-title>{{ e.nombres }} {{ e.apellidos }}</h2>
+<mat-dialog-content>
+  <p><strong>Código:</strong> {{ e.id }}</p>
+  <p><strong>Fecha de nacimiento:</strong> {{ e.fechaNacimiento }}</p>
+  <p><strong>Género:</strong> {{ nombreGenero(e.genero) }}</p>
+  <p><strong>Correo:</strong> {{ e.correo }}</p>
+  <p><strong>Dirección:</strong> {{ e.direccion }}</p>
+  <p><strong>Carrera:</strong> {{ e.carreraId }}</p>
+  @if (e.observaciones) {
+    <p><strong>Observaciones:</strong> {{ e.observaciones }}</p>
+  }
+  <p><strong>Contactos:</strong></p>
+  @for (c of e.contactos; track $index) {
+    <p>{{ c.numero }} · {{ nombreTipo(c.tipo) }} · {{ c.activo ? 'Activo' : 'Inactivo' }}</p>
+  }
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

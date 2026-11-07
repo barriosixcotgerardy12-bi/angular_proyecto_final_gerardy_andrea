@@ -10,6 +10,11 @@ import { MatCardModule } from '@angular/material/card';
 import { EstudianteService } from '../../services/estudiante.service';
 import { CatalogoService } from '../../services/catalogo.service';
 import { ItemCatalogo } from '../../models/catalogo.model';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Estudiante } from '../../models/estudiante.model';
+import { ConfirmarDialogo } from '../../components/confirmar-dialogo/confirmar-dialogo';
+import { EstudianteDetalle } from '../../components/estudiante-detalle/estudiante-detalle';
 
 @Component({
   selector: 'app-estudiantes-lista',
@@ -20,6 +25,9 @@ import { ItemCatalogo } from '../../models/catalogo.model';
 export class EstudiantesLista {
   private estudianteService = inject(EstudianteService);
   private catalogoService = inject(CatalogoService);
+  private dialog = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
+
 
   readonly estudiantes = this.estudianteService.estudiantes;
   readonly columnas = ['id', 'nombre', 'correo', 'genero', 'carrera', 'acciones'];
@@ -51,6 +59,28 @@ export class EstudiantesLista {
 
   nombreGenero(id: string): string {
     return this.generos().find(g => g.id === id)?.nombre ?? id;
+  }
+
+    ver(e: Estudiante): void {
+    this.dialog.open(EstudianteDetalle, { data: e });
+  }
+
+  eliminar(e: Estudiante): void {
+    this.dialog
+      .open(ConfirmarDialogo, {
+        data: {
+          titulo: 'Eliminar estudiante',
+          mensaje: `¿Seguro que deseas eliminar a ${e.nombres} ${e.apellidos} (${e.id})? Esta acción no se puede deshacer.`,
+          textoConfirmar: 'Eliminar',
+        },
+      })
+      .afterClosed()
+      .subscribe(confirmado => {
+        if (confirmado) {
+          this.estudianteService.eliminar(e.id);
+          this.snackBar.open('Estudiante eliminado', 'Cerrar', { duration: 3000 });
+        }
+      });
   }
 
   limpiarFiltros(): void {
