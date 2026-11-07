@@ -20,3 +20,10 @@ mat-form-field {
   justify-content: flex-end;
   margin: 16px 8px 0 8px;
 }
+
+.contacto {
+  margin: 8px;
+  padding: 8px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}

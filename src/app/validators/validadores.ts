@@ -36,5 +36,20 @@ export function mensajeDeError(control: AbstractControl, mensajePatron = 'El for
   if (control.hasError('fechaFutura')) return 'La fecha no puede ser futura.';
   if (control.hasError('edadMinima')) return 'El estudiante debe tener al menos 15 años.';
   if (control.hasError('edadMaxima')) return 'La fecha de nacimiento no es razonable.';
+  if (control.hasError('telefonoFormato')) return 'Solo se permiten números, espacios, +, - y paréntesis.';
+  if (control.hasError('telefonoLongitud')) return 'El número debe tener entre 8 y 15 dígitos.';
   return '';
+}
+
+export function formatoTelefono(control: AbstractControl): ValidationErrors | null {
+  const valor = control.value as string;
+  if (!valor) return null;
+  if (!/^[0-9+\-\s()]+$/.test(valor)) return { telefonoFormato: true };
+  const digitos = valor.replace(/\D/g, '');
+  return digitos.length >= 8 && digitos.length <= 15 ? null : { telefonoLongitud: true };
+}
+
+export function algunContactoActivo(control: AbstractControl): ValidationErrors | null {
+  const contactos = control.value as { activo: boolean }[];
+  return contactos.some(c => c.activo) ? null : { sinContactoActivo: true };
 }

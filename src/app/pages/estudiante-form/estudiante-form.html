@@ -81,6 +81,38 @@
         </mat-form-field>
       </div>
 
+        <h3>Números de contacto</h3>
+
+      <div formArrayName="contactos">
+        @for (contacto of contactos.controls; track contacto; let i = $index) {
+          <div class="contacto" [formGroupName]="i">
+            <mat-form-field>
+              <mat-label>Número</mat-label>
+              <input matInput formControlName="numero" />
+              <mat-error>{{ mensajeError(contacto.controls.numero) }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Tipo</mat-label>
+              <mat-select formControlName="tipo">
+                @for (t of tiposContacto(); track t.id) {
+                  <mat-option [value]="t.id">{{ t.nombre }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="activo">Activo</mat-checkbox>
+            <button mat-button type="button" (click)="quitarContacto(i)">Quitar</button>
+          </div>
+        }
+      </div>
+
+      @if (contactos.touched && contactos.hasError('sinContactoActivo')) {
+        <p class="error">Debe existir al menos un número de contacto activo.</p>
+      }
+
+      <button mat-stroked-button type="button" (click)="agregarContacto()">Agregar número</button>
+
       <div class="acciones">
         <a mat-button routerLink="/estudiantes">Cancelar</a>
         <button mat-flat-button type="submit">Guardar</button>

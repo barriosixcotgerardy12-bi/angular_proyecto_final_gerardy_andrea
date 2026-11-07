@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { CatalogoService } from '../../services/catalogo.service';
 import { ItemCatalogo } from '../../models/catalogo.model';
-import { fechaNacimientoValida, mensajeDeError, sinSoloEspacios } from '../../validators/validadores';
+import { fechaNacimientoValida, mensajeDeError, sinSoloEspacios, algunContactoActivo, formatoTelefono } from '../../validators/validadores';
 
 const PATRON_NOMBRE = /^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s'.-]+$/;
 const PATRON_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -19,7 +19,7 @@ const PATRON_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   selector: 'app-estudiante-form',
   imports: [
     ReactiveFormsModule, RouterLink, MatCardModule, MatButtonModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatRadioModule,
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatRadioModule, 
   ],
   templateUrl: './estudiante-form.html',
   styleUrl: './estudiante-form.css',
@@ -30,6 +30,8 @@ export class EstudianteForm {
 
   readonly generos = toSignal(this.catalogoService.generos$, { initialValue: [] as ItemCatalogo[] });
   readonly carreras = toSignal(this.catalogoService.carreras$, { initialValue: [] as string[] });
+  readonly tiposContacto = toSignal(this.catalogoService.tiposContacto$, { initialValue: [] as ItemCatalogo[] });
+
 
   readonly form = this.fb.nonNullable.group({
     id: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern(/^[A-Za-z0-9-]+$/)]],
@@ -41,10 +43,29 @@ export class EstudianteForm {
     direccion: ['', [Validators.required, sinSoloEspacios, Validators.minLength(5), Validators.maxLength(120)]],
     carreraId: ['', Validators.required],
     observaciones: ['', Validators.maxLength(200)],
+    contactos: this.fb.array([this.crearContacto()], algunContactoActivo),
   });
 
   readonly c = this.form.controls;
+  readonly contactos = this.form.controls.contactos;
   readonly mensajeError = mensajeDeError;
+
+    crearContacto() {
+    return this.fb.nonNullable.group({
+      numero: ['', [Validators.required, formatoTelefono]],
+      tipo: ['movil', Validators.required],
+      activo: [true],
+    });
+  }
+
+  agregarContacto(): void {
+    this.contactos.push(this.crearContacto());
+  }
+
+  quitarContacto(indice: number): void {
+    this.contactos.removeAt(indice);
+    this.contactos.markAsTouched();
+  }
 
   guardar(): void {
     if (this.form.invalid) {
