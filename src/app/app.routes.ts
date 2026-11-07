@@ -12,5 +12,6 @@ export const routes: Routes = [
   { path: 'estudiantes/nuevo', component: EstudianteForm },
   { path: 'inscripciones', component: InscripcionesLista },
   { path: 'respaldo', component: Respaldo },
+  { path: 'estudiantes/editar/:id', component: EstudianteForm },
   { path: '**', redirectTo: 'inicio' },
 ];

@@ -1,6 +1,5 @@
-<p>estudiante-form works!</p>
-
-<h2>Nuevo estudiante</h2>
+<h2>{{ modoEdicion ? 'Editar estudiante' : 'Nuevo estudiante' }}</h2>
+<button mat-flat-button type="submit">Guardar</button> por <button mat-flat-button type="submit">{{ modoEdicion ? 'Guardar cambios' : 'Registrar' }}</button>
 
 <mat-card>
   <mat-card-content>

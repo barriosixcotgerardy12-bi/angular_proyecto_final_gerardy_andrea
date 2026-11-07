@@ -2,3 +2,77 @@
   <h2>Estudiantes</h2>
   <a mat-flat-button routerLink="/estudiantes/nuevo">Nuevo estudiante</a>
 </div>
+
+<mat-card>
+  <mat-card-content class="filtros">
+    <mat-form-field>
+      <mat-label>Buscar por código, nombre o correo</mat-label>
+      <input matInput [value]="texto()" (input)="alCambiarTexto($event)" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Género</mat-label>
+      <mat-select [value]="generoFiltro()" (selectionChange)="generoFiltro.set($event.value)">
+        <mat-option value="">Todos</mat-option>
+        @for (g of generos(); track g.id) {
+          <mat-option [value]="g.id">{{ g.nombre }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Carrera</mat-label>
+      <mat-select [value]="carreraFiltro()" (selectionChange)="carreraFiltro.set($event.value)">
+        <mat-option value="">Todas</mat-option>
+        @for (c of carreras(); track c) {
+          <mat-option [value]="c">{{ c }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-button (click)="limpiarFiltros()">Limpiar filtros</button>
+  </mat-card-content>
+</mat-card>
+
+<p class="resumen">Mostrando {{ estudiantesFiltrados().length }} de {{ estudiantes().length }} estudiantes</p>
+
+<table mat-table [dataSource]="estudiantesFiltrados()">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>Código</th>
+    <td mat-cell *matCellDef="let e">{{ e.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="nombre">
+    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+    <td mat-cell *matCellDef="let e">{{ e.nombres }} {{ e.apellidos }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="correo">
+    <th mat-header-cell *matHeaderCellDef>Correo</th>
+    <td mat-cell *matCellDef="let e">{{ e.correo }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="genero">
+    <th mat-header-cell *matHeaderCellDef>Género</th>
+    <td mat-cell *matCellDef="let e">{{ nombreGenero(e.genero) }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="carrera">
+    <th mat-header-cell *matHeaderCellDef>Carrera</th>
+    <td mat-cell *matCellDef="let e">{{ e.carreraId }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let e">
+      <a mat-button [routerLink]="['/estudiantes/editar', e.id]">Editar</a>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+  <tr mat-row *matRowDef="let fila; columns: columnas"></tr>
+</table>
+
+@if (estudiantesFiltrados().length === 0) {
+  <p class="vacio">No hay estudiantes que coincidan con la búsqueda.</p>
+}

@@ -38,6 +38,7 @@ export function mensajeDeError(control: AbstractControl, mensajePatron = 'El for
   if (control.hasError('edadMaxima')) return 'La fecha de nacimiento no es razonable.';
   if (control.hasError('telefonoFormato')) return 'Solo se permiten números, espacios, +, - y paréntesis.';
   if (control.hasError('telefonoLongitud')) return 'El número debe tener entre 8 y 15 dígitos.';
+  if (control.hasError('codigoDuplicado')) return 'Ya existe un estudiante con este código.';
   return '';
 }
 
@@ -52,4 +53,13 @@ export function formatoTelefono(control: AbstractControl): ValidationErrors | nu
 export function algunContactoActivo(control: AbstractControl): ValidationErrors | null {
   const contactos = control.value as { activo: boolean }[];
   return contactos.some(c => c.activo) ? null : { sinContactoActivo: true };
+}
+
+import { ValidatorFn } from '@angular/forms';  // súbanlo al import de arriba
+
+export function codigoUnico(existe: (id: string) => boolean): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const valor = control.value as string;
+    return valor && existe(valor) ? { codigoDuplicado: true } : null;
+  };
 }
