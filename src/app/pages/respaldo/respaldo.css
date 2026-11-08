@@ -1,0 +1,16 @@
+.tarjeta {
+  margin: 0 0 16px 0;
+  padding: 16px;
+}
+
+.archivo {
+  margin: 0 12px;
+}
+
+.errores {
+  margin: 16px 0 0 0;
+  padding: 8px 16px;
+  border: 1px solid red;
+  border-radius: 4px;
+  color: red;
+}

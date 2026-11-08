@@ -1,1 +1,37 @@
-<h2>Gestión de respaldos</h2>
+<h2>Respaldo de datos</h2>
+
+<mat-card class="tarjeta">
+  <mat-card-content>
+    <h3>Exportar datos</h3>
+    <p>
+      Genera el archivo <strong>uniregistro_respaldo.json</strong> con los
+      {{ estudiantes().length }} estudiantes y las {{ inscripciones().length }} inscripciones guardadas.
+    </p>
+    <button mat-flat-button (click)="exportar()">Exportar datos</button>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="tarjeta">
+  <mat-card-content>
+    <h3>Importar datos</h3>
+    <p>
+      Selecciona un archivo JSON exportado previamente. El archivo se valida por completo antes de
+      guardar cualquier cambio y, si es correcto, <strong>reemplazará todos los datos actuales</strong>.
+    </p>
+
+    <input #archivo type="file" accept=".json,application/json" hidden (change)="alSeleccionarArchivo($event)" />
+    <button mat-flat-button (click)="archivo.click()">Importar datos</button>
+    @if (nombreArchivo()) {
+      <span class="archivo">{{ nombreArchivo() }}</span>
+    }
+
+    @if (errores().length > 0) {
+      <div class="errores">
+        <p><strong>El archivo no se pudo importar. Tus datos actuales no fueron modificados:</strong></p>
+        @for (e of errores(); track $index) {
+          <p>• {{ e }}</p>
+        }
+      </div>
+    }
+  </mat-card-content>
+</mat-card>
