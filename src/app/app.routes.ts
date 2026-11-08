@@ -4,6 +4,7 @@ import { EstudiantesLista } from './pages/estudiantes-lista/estudiantes-lista';
 import { InscripcionesLista } from './pages/inscripciones-lista/inscripciones-lista';
 import { Respaldo } from './pages/respaldo/respaldo';
 import { EstudianteForm } from './pages/estudiante-form/estudiante-form';
+import { InscripcionForm } from './pages/inscripcion-form/inscripcion-form';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -13,5 +14,7 @@ export const routes: Routes = [
   { path: 'inscripciones', component: InscripcionesLista },
   { path: 'respaldo', component: Respaldo },
   { path: 'estudiantes/editar/:id', component: EstudianteForm },
+  { path: 'inscripciones/nueva', component: InscripcionForm },
+  { path: 'inscripciones/editar/:id', component: InscripcionForm },
   { path: '**', redirectTo: 'inicio' },
 ];

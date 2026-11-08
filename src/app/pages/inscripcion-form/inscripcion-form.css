@@ -1,0 +1,37 @@
+mat-card {
+  padding: 16px;
+}
+
+mat-form-field {
+  margin: 8px;
+}
+
+.grupo {
+  margin: 8px;
+}
+
+.curso {
+  margin: 4px 8px;
+  padding: 4px 8px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+.resumen {
+  margin: 12px 8px;
+  padding: 8px;
+  background-color: #eeeeee;
+  color: black;
+  border-radius: 4px;
+}
+
+.error {
+  color: red;
+  margin: 4px 8px;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  margin: 16px 8px 0 8px;
+}

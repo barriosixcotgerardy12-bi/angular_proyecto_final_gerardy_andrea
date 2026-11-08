@@ -1,0 +1,128 @@
+<h2>{{ modoEdicion ? 'Editar inscripción' : 'Nueva inscripción' }}</h2>
+
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+      <h3>Datos de la inscripción</h3>
+
+      @if (estudiantes().length === 0) {
+        <p class="error">
+          No hay estudiantes registrados. <a routerLink="/estudiantes/nuevo">Registra uno primero</a>.
+        </p>
+      }
+
+      <div>
+        <mat-form-field>
+          <mat-label>Estudiante</mat-label>
+          <mat-select formControlName="estudianteId">
+            @for (e of estudiantes(); track e.id) {
+              <mat-option [value]="e.id">{{ e.id }} — {{ e.nombres }} {{ e.apellidos }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>Selecciona un estudiante.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Período académico</mat-label>
+          <mat-select formControlName="periodoId">
+            @for (p of periodos(); track p.id) {
+              <mat-option [value]="p.id">{{ p.nombre }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>Selecciona un período.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Jornada</mat-label>
+          <mat-select formControlName="jornadaId">
+            @for (j of jornadas(); track j.id) {
+              <mat-option [value]="j.id">{{ j.nombre }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>Selecciona una jornada.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="estado">
+            @for (e of estadosDisponibles(); track e.id) {
+              <mat-option [value]="e.id">{{ e.nombre }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>Selecciona un estado.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="grupo">
+        <label>Modalidad</label>
+        <mat-radio-group formControlName="modalidadId">
+          @for (m of modalidades(); track m.id) {
+            <mat-radio-button [value]="m.id">{{ m.nombre }}</mat-radio-button>
+          }
+        </mat-radio-group>
+        @if (c.modalidadId.touched && c.modalidadId.hasError('required')) {
+          <p class="error">Selecciona una modalidad.</p>
+        }
+      </div>
+
+      <h3>Cursos</h3>
+
+      <mat-form-field>
+        <mat-label>Área académica</mat-label>
+        <mat-select [value]="area()" (selectionChange)="area.set($event.value)">
+          @for (a of carreras(); track a) {
+            <mat-option [value]="a">{{ a }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      @if (area() === '') {
+        <p class="grupo">Selecciona un estudiante o un área para ver los cursos disponibles.</p>
+      }
+
+      @for (curso of cursosDelArea(); track curso.id) {
+        <div class="curso">
+          <mat-checkbox [checked]="seleccionados().includes(curso.id)" (change)="alternarCurso(curso.id)">
+            {{ curso.codigo }} · {{ curso.nombre }} ({{ curso.creditos }} créditos)
+          </mat-checkbox>
+        </div>
+      }
+
+      <div class="resumen">
+        <strong>Seleccionados:</strong>
+        {{ seleccionados().length }} de {{ maxCursos }} cursos · {{ totalCreditos() }} de {{ maxCreditos }} créditos
+        @for (curso of cursosElegidos(); track curso.id) {
+          <p>{{ curso.codigo }} — {{ curso.nombre }} ({{ curso.carreraId }})</p>
+        }
+      </div>
+
+      @if (c.cursoIds.touched && c.cursoIds.invalid) {
+        <p class="error">{{ mensajeError(c.cursoIds) }}</p>
+      }
+
+      <div>
+        <mat-form-field>
+          <mat-label>Observaciones (opcional)</mat-label>
+          <textarea matInput formControlName="observaciones"></textarea>
+          <mat-error>{{ mensajeError(c.observaciones) }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      @if (erroresServicio().length > 0) {
+        <div class="error">
+          <p>No se pudo guardar la inscripción:</p>
+          @for (e of erroresServicio(); track e) {
+            <p>• {{ e }}</p>
+          }
+        </div>
+      }
+
+      <div class="acciones">
+        <a mat-button routerLink="/inscripciones">Cancelar</a>
+        <button mat-flat-button type="submit">{{ modoEdicion ? 'Guardar cambios' : 'Registrar' }}</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

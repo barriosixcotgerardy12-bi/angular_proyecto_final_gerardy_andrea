@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { MAX_CREDITOS, MAX_CURSOS } from '../models/inscripcion.model';
 
 export function sinSoloEspacios(control: AbstractControl): ValidationErrors | null {
   const valor = control.value;
@@ -39,6 +40,9 @@ export function mensajeDeError(control: AbstractControl, mensajePatron = 'El for
   if (control.hasError('telefonoFormato')) return 'Solo se permiten números, espacios, +, - y paréntesis.';
   if (control.hasError('telefonoLongitud')) return 'El número debe tener entre 8 y 15 dígitos.';
   if (control.hasError('codigoDuplicado')) return 'Ya existe un estudiante con este código.';
+  if (control.hasError('sinCursos')) return 'Selecciona al menos un curso.';
+  if (control.hasError('demasiadosCursos')) return `El máximo es ${MAX_CURSOS} cursos por inscripción.`;
+  if (control.hasError('demasiadosCreditos')) return `El máximo es ${MAX_CREDITOS} créditos por inscripción.`;
   return '';
 }
 
@@ -61,5 +65,18 @@ export function codigoUnico(existe: (id: string) => boolean): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const valor = control.value as string;
     return valor && existe(valor) ? { codigoDuplicado: true } : null;
+  };
+}
+export function seleccionValida(
+  maxCursos: number,
+  maxCreditos: number,
+  creditosDe: (ids: string[]) => number
+): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const ids = control.value as string[];
+    if (!ids || ids.length === 0) return { sinCursos: true };
+    if (ids.length > maxCursos) return { demasiadosCursos: true };
+    if (creditosDe(ids) > maxCreditos) return { demasiadosCreditos: true };
+    return null;
   };
 }
