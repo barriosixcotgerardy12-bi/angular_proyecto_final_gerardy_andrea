@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "fechaExportacion": "2026-11-08T12:00:00.000Z",
+  "estudiantes": [],
+  "inscripciones": [
+    {
+      "id": "INS-001",
+      "estudianteId": "EST-999",
+      "periodoId": "2026-2",
+      "cursoIds": ["XXX999"],
+      "jornadaId": "matutina",
+      "modalidadId": "presencial",
+      "estado": "REGISTRADA",
+      "observaciones": "",
+      "fechaRegistro": "2026-11-08T12:00:00.000Z"
+    }
+  ]
+}

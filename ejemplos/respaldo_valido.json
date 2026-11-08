@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "fechaExportacion": "2026-11-08T12:00:00.000Z",
+  "estudiantes": [
+    {
+      "id": "EST-001",
+      "nombres": "María",
+      "apellidos": "López",
+      "fechaNacimiento": "2000-03-15",
+      "genero": "femenino",
+      "correo": "maria.lopez@correo.com",
+      "direccion": "Zona 1, Ciudad",
+      "carreraId": "Sistemas",
+      "observaciones": "",
+      "contactos": [
+        { "numero": "5555-1234", "tipo": "movil", "activo": true },
+        { "numero": "2222-3344", "tipo": "casa", "activo": false }
+      ],
+      "fechaRegistro": "2026-11-08T12:00:00.000Z"
+    },
+    {
+      "id": "EST-002",
+      "nombres": "Carlos",
+      "apellidos": "Pérez",
+      "fechaNacimiento": "1999-07-02",
+      "genero": "masculino",
+      "correo": "carlos.perez@correo.com",
+      "direccion": "Zona 5, Ciudad",
+      "carreraId": "Administración",
+      "observaciones": "Beca parcial",
+      "contactos": [
+        { "numero": "4444-5678", "tipo": "movil", "activo": true }
+      ],
+      "fechaRegistro": "2026-11-08T12:00:00.000Z"
+    }
+  ],
+  "inscripciones": [
+    {
+      "id": "INS-001",
+      "estudianteId": "EST-001",
+      "periodoId": "2026-2",
+      "cursoIds": ["WEB101", "BD101"],
+      "jornadaId": "matutina",
+      "modalidadId": "presencial",
+      "estado": "REGISTRADA",
+      "observaciones": "",
+      "fechaRegistro": "2026-11-08T12:00:00.000Z"
+    },
+    {
+      "id": "INS-002",
+      "estudianteId": "EST-002",
+      "periodoId": "2026-2",
+      "cursoIds": ["ADM101", "MKT101"],
+      "jornadaId": "nocturna",
+      "modalidadId": "hibrida",
+      "estado": "EN_REVISION",
+      "observaciones": "",
+      "fechaRegistro": "2026-11-08T12:00:00.000Z"
+    }
+  ]
+}
