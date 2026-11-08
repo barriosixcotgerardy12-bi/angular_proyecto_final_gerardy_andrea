@@ -1,3 +1,28 @@
 <h2>Bienvenido al sistema de inscripciones UMES</h2>
+<p>Gestiona estudiantes e inscripciones y respalda tus datos desde el menú.</p>
 
-<p>Gestiona estudiantes e inscripciones desde el menú superior.</p>
+<mat-card class="tarjeta">
+  <mat-card-content>
+    <h3>Estudiantes</h3>
+    <h1>{{ estudiantes().length }}</h1>
+    <p>estudiantes registrados</p>
+    <a mat-flat-button routerLink="/estudiantes">Ver estudiantes</a>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="tarjeta">
+  <mat-card-content>
+    <h3>Inscripciones</h3>
+    <h1>{{ inscripciones().length }}</h1>
+    <p>inscripciones en total, {{ vigentes() }} vigentes</p>
+    <a mat-flat-button routerLink="/inscripciones">Ver inscripciones</a>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="tarjeta">
+  <mat-card-content>
+    <h3>Respaldo</h3>
+    <p>Exporta o importa tus datos en formato JSON.</p>
+    <a mat-flat-button routerLink="/respaldo">Ir a respaldo</a>
+  </mat-card-content>
+</mat-card>
