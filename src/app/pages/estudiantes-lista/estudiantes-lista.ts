@@ -16,10 +16,13 @@ import { Estudiante } from '../../models/estudiante.model';
 import { ConfirmarDialogo } from '../../components/confirmar-dialogo/confirmar-dialogo';
 import { EstudianteDetalle } from '../../components/estudiante-detalle/estudiante-detalle';
 import { InscripcionService } from '../../services/inscripcion.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { PantallaService } from '../../services/pantalla.service';
+
 
 @Component({
   selector: 'app-estudiantes-lista',
-  imports: [RouterLink, MatTableModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatCardModule],
+  imports: [RouterLink, MatTableModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatCardModule, MatMenuModule ],
   templateUrl: './estudiantes-lista.html',
   styleUrl: './estudiantes-lista.css',
 })
@@ -31,7 +34,12 @@ export class EstudiantesLista {
   private inscripcionService = inject(InscripcionService);
 
   readonly estudiantes = this.estudianteService.estudiantes;
-  readonly columnas = ['id', 'nombre', 'correo', 'genero', 'carrera', 'acciones'];
+  readonly movil = inject(PantallaService).movil;
+  readonly columnas = computed(() =>
+    this.movil()
+      ? ['nombre', 'acciones']
+      : ['id', 'nombre', 'correo', 'genero', 'carrera', 'acciones']
+  );
 
   readonly generos = toSignal(this.catalogoService.generos$, { initialValue: [] as ItemCatalogo[] });
   readonly carreras = toSignal(this.catalogoService.carreras$, { initialValue: [] as string[] });

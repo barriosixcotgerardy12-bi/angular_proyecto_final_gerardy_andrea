@@ -18,12 +18,14 @@ import { Inscripcion } from '../../models/inscripcion.model';
 import { ConfirmarDialogo } from '../../components/confirmar-dialogo/confirmar-dialogo';
 import { InscripcionDetalle } from '../../components/inscripcion-detalle/inscripcion-detalle';
 import { nombreDe } from '../../utils/catalogo.utils';
+import { MatMenuModule } from '@angular/material/menu';
+import { PantallaService } from '../../services/pantalla.service';
 
 @Component({
   selector: 'app-inscripciones-lista',
   imports: [
     RouterLink, MatTableModule, MatFormFieldModule, MatInputModule,
-    MatSelectModule, MatButtonModule, MatCardModule,
+    MatSelectModule, MatButtonModule, MatCardModule, MatMenuModule
   ],
   templateUrl: './inscripciones-lista.html',
   styleUrl: './inscripciones-lista.css',
@@ -36,7 +38,12 @@ export class InscripcionesLista {
   private snackBar = inject(MatSnackBar);
 
   readonly inscripciones = this.inscripcionService.inscripciones;
-  readonly columnas = ['id', 'estudiante', 'periodo', 'cursos', 'estado', 'acciones'];
+  readonly movil = inject(PantallaService).movil;
+  readonly columnas = computed(() =>
+    this.movil()
+      ? ['estudiante', 'estado', 'acciones']
+      : ['id', 'estudiante', 'periodo', 'cursos', 'estado', 'acciones']
+  );
 
   readonly periodos = toSignal(this.catalogoService.periodos$, { initialValue: [] as ItemCatalogo[] });
   readonly estados = toSignal(this.catalogoService.estados$, { initialValue: [] as ItemCatalogo[] });

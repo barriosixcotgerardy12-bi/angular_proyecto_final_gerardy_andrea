@@ -4,7 +4,7 @@
 </div>
 
 <mat-card>
-  <mat-card-content class="filtros">
+  <mat-card-content class="filtros" [class.movil]="movil()">
     <mat-form-field>
       <mat-label>Buscar por código, nombre o correo</mat-label>
       <input matInput [value]="texto()" (input)="alCambiarTexto($event)" />
@@ -36,44 +36,60 @@
 
 <p class="resumen">Mostrando {{ estudiantesFiltrados().length }} de {{ estudiantes().length }} estudiantes</p>
 
-<table mat-table [dataSource]="estudiantesFiltrados()">
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef>Código</th>
-    <td mat-cell *matCellDef="let e">{{ e.id }}</td>
-  </ng-container>
+<div class="tabla">
+  <table mat-table [dataSource]="estudiantesFiltrados()">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Código</th>
+      <td mat-cell *matCellDef="let e">{{ e.id }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="nombre">
-    <th mat-header-cell *matHeaderCellDef>Nombre</th>
-    <td mat-cell *matCellDef="let e">{{ e.nombres }} {{ e.apellidos }}</td>
-  </ng-container>
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let e">
+        {{ e.nombres }} {{ e.apellidos }}
+        @if (movil()) {
+          <br /><small>{{ e.id }}</small>
+        }
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="correo">
-    <th mat-header-cell *matHeaderCellDef>Correo</th>
-    <td mat-cell *matCellDef="let e">{{ e.correo }}</td>
-  </ng-container>
+    <ng-container matColumnDef="correo">
+      <th mat-header-cell *matHeaderCellDef>Correo</th>
+      <td mat-cell *matCellDef="let e">{{ e.correo }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="genero">
-    <th mat-header-cell *matHeaderCellDef>Género</th>
-    <td mat-cell *matCellDef="let e">{{ nombreGenero(e.genero) }}</td>
-  </ng-container>
+    <ng-container matColumnDef="genero">
+      <th mat-header-cell *matHeaderCellDef>Género</th>
+      <td mat-cell *matCellDef="let e">{{ nombreGenero(e.genero) }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="carrera">
-    <th mat-header-cell *matHeaderCellDef>Carrera</th>
-    <td mat-cell *matCellDef="let e">{{ e.carreraId }}</td>
-  </ng-container>
+    <ng-container matColumnDef="carrera">
+      <th mat-header-cell *matHeaderCellDef>Carrera</th>
+      <td mat-cell *matCellDef="let e">{{ e.carreraId }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="acciones">
-    <th mat-header-cell *matHeaderCellDef>Acciones</th>
-    <td mat-cell *matCellDef="let e">
-      <button mat-button (click)="ver(e)">Ver</button>
-      <a mat-button [routerLink]="['/estudiantes/editar', e.id]">Editar</a>
-      <button mat-button (click)="eliminar(e)">Eliminar</button>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let e">
+        @if (movil()) {
+          <button mat-button [matMenuTriggerFor]="menu">Acciones</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="ver(e)">Ver</button>
+            <a mat-menu-item [routerLink]="['/estudiantes/editar', e.id]">Editar</a>
+            <button mat-menu-item (click)="eliminar(e)">Eliminar</button>
+          </mat-menu>
+        } @else {
+          <button mat-button (click)="ver(e)">Ver</button>
+          <a mat-button [routerLink]="['/estudiantes/editar', e.id]">Editar</a>
+          <button mat-button (click)="eliminar(e)">Eliminar</button>
+        }
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-  <tr mat-row *matRowDef="let fila; columns: columnas"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="columnas()"></tr>
+    <tr mat-row *matRowDef="let fila; columns: columnas()"></tr>
+  </table>
+</div>
 
 @if (estudiantesFiltrados().length === 0) {
   <p class="vacio">No hay estudiantes que coincidan con la búsqueda.</p>

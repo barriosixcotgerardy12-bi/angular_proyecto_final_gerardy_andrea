@@ -33,3 +33,11 @@
 .cancelada {
   background-color: lightcoral;
 }
+
+.filtros.movil {
+  display: block;
+}
+
+.tabla {
+  overflow-x: auto;
+}

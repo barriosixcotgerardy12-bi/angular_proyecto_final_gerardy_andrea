@@ -22,3 +22,11 @@
   padding: 16px;
   color: gray;
 }
+
+.filtros.movil {
+  display: block;
+}
+
+.tabla {
+  overflow-x: auto;
+}
