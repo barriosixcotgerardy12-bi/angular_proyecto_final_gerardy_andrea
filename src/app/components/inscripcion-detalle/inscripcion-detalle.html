@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Inscripción {{ i.id }}</h2>
+<mat-dialog-content>
+  <p>
+    <strong>Estudiante:</strong>
+    @if (estudiante) {
+      {{ estudiante.id }} — {{ estudiante.nombres }} {{ estudiante.apellidos }}
+    } @else {
+      {{ i.estudianteId }} (no encontrado)
+    }
+  </p>
+  <p><strong>Período:</strong> {{ nombre(periodos(), i.periodoId) }}</p>
+  <p><strong>Jornada:</strong> {{ nombre(jornadas(), i.jornadaId) }}</p>
+  <p><strong>Modalidad:</strong> {{ nombre(modalidades(), i.modalidadId) }}</p>
+  <p><strong>Estado:</strong> {{ nombre(estados(), i.estado) }}</p>
+  <p><strong>Cursos:</strong></p>
+  @for (c of cursosInscritos(); track c.id) {
+    <p>{{ c.codigo }} — {{ c.nombre }} ({{ c.creditos }} créditos)</p>
+  }
+  <p><strong>Total de créditos:</strong> {{ totalCreditos() }}</p>
+  @if (i.observaciones) {
+    <p><strong>Observaciones:</strong> {{ i.observaciones }}</p>
+  }
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

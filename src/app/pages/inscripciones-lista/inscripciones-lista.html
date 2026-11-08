@@ -2,3 +2,83 @@
   <h2>Inscripciones</h2>
   <a mat-flat-button routerLink="/inscripciones/nueva">Nueva inscripción</a>
 </div>
+
+<mat-card>
+  <mat-card-content class="filtros">
+    <mat-form-field>
+      <mat-label>Buscar por estudiante (código o nombre)</mat-label>
+      <input matInput [value]="texto()" (input)="alCambiarTexto($event)" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Período</mat-label>
+      <mat-select [value]="periodoFiltro()" (selectionChange)="periodoFiltro.set($event.value)">
+        <mat-option value="">Todos</mat-option>
+        @for (p of periodos(); track p.id) {
+          <mat-option [value]="p.id">{{ p.nombre }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Estado</mat-label>
+      <mat-select [value]="estadoFiltro()" (selectionChange)="estadoFiltro.set($event.value)">
+        <mat-option value="">Todos</mat-option>
+        @for (e of estados(); track e.id) {
+          <mat-option [value]="e.id">{{ e.nombre }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-button (click)="limpiarFiltros()">Limpiar filtros</button>
+  </mat-card-content>
+</mat-card>
+
+<p class="resumen">Mostrando {{ inscripcionesFiltradas().length }} de {{ inscripciones().length }} inscripciones</p>
+
+<table mat-table [dataSource]="inscripcionesFiltradas()">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>Código</th>
+    <td mat-cell *matCellDef="let i">{{ i.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="estudiante">
+    <th mat-header-cell *matHeaderCellDef>Estudiante</th>
+    <td mat-cell *matCellDef="let i">{{ i.estudianteId }} · {{ nombreEstudiante(i.estudianteId) }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="periodo">
+    <th mat-header-cell *matHeaderCellDef>Período</th>
+    <td mat-cell *matCellDef="let i">{{ i.periodoId }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="cursos">
+    <th mat-header-cell *matHeaderCellDef>Cursos</th>
+    <td mat-cell *matCellDef="let i">{{ nombreCursos(i.cursoIds) }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="estado">
+    <th mat-header-cell *matHeaderCellDef>Estado</th>
+    <td mat-cell *matCellDef="let i">
+      <span class="estado" [class.cancelada]="i.estado === 'CANCELADA'">{{ nombre(estados(), i.estado) }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <td mat-cell *matCellDef="let i">
+      <button mat-button (click)="ver(i)">Ver</button>
+      @if (i.estado !== 'CANCELADA') {
+        <a mat-button [routerLink]="['/inscripciones/editar', i.id]">Editar</a>
+        <button mat-button (click)="cancelar(i)">Cancelar</button>
+      }
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+  <tr mat-row *matRowDef="let fila; columns: columnas"></tr>
+</table>
+
+@if (inscripcionesFiltradas().length === 0) {
+  <p class="vacio">No hay inscripciones que coincidan con la búsqueda.</p>
+}
